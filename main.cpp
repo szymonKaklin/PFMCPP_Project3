@@ -75,7 +75,7 @@ struct Animal
 {
     int numOfLegs = 4;
     int numOfEyes = 2;
-    char animalClass[7] = "mammal";
+    char animalClass[7] = "mammal"; FIXME avoid raw character arrays for now.  use std::string if you must
 
     void classifyAnimal( Animal animal );
     bool isAnimalBipedal( Animal numOfLegs );
@@ -102,7 +102,7 @@ struct Guitar
 {
     int stringNum = 7;
     int fretNum = 24;
-    char model[7] = "ibanez";
+    char model[7] = "ibanez"; FIXME avoid raw character arrays for now.  use std::string if you must
 
     struct Strings
     {
@@ -119,8 +119,8 @@ struct Airliner
 {
     int engines = 4;
     int capacity = 416;
-    double fuelCapacity = 183380;
-    char company[8] = "boeing";
+    double fuelCapacity = 183380; FIXME this is a double initialized with an int
+    char company[8] = "boeing"; FIXME avoid raw character arrays for now.  use std::string if you must
 
     double checkFuelAmount( Airliner plane );    
     bool isTakeoffReady( Airliner plane, double fuelAmount );
@@ -156,7 +156,7 @@ struct House
  */
 struct Engine
 {
-    double maximumThrust = 79000;
+    double maximumThrust = 79000; FIXME this is a double initialized with an int
     int overallPressureRatio = 32;
     int turbineInletTemp = 1350;
 
