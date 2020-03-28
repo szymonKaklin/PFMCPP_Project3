@@ -11,10 +11,53 @@ Create a branch named Part2
     you should be able to deduce the return type of those functions based on their usage in Person::run()
     You'll need to insert the Person struct from the video in the space below.
  */
+#include <iostream>
 
+struct Person
+{
+    int age;
+    int height;
+    float hairLength;
+    float GPA;
+    unsigned int SATScore;
+    int distanceTraveled;
 
+    void run(int howFast, bool startWithLeftFoot);
 
+    struct Foot
+    {
+        int numberOfSteps = 0;
+        int step = 5;
 
+        void stepForward()
+        {
+            numberOfSteps += 1;
+        }
+
+        int stepSize(int speed)
+        {
+            return speed * step;
+        }
+    };
+
+    Foot leftFoot;
+    Foot rightFoot;
+};
+
+void Person::run(int howFast, bool startWithLeftFoot)
+{
+    if(startWithLeftFoot == true)
+    {
+        leftFoot.stepForward();
+        rightFoot.stepForward();
+    }
+    else
+    {
+        rightFoot.stepForward();
+        leftFoot.stepForward();
+    }
+    distanceTraveled += leftFoot.stepSize(howFast) + rightFoot.stepSize(howFast);
+}
 
  /*
  2) provide implementations for the member functions you declared in your 10 user-defined types from the previous video outside of your UDT definitions.
@@ -45,10 +88,15 @@ struct Artist
         float averageSongLength = 3.0f;
     };
 
-    double totalAlbumLength( Album album );
+    float totalAlbumLength(Album album);
 
     Album debut;
 };
+
+float Artist::totalAlbumLength(Artist::Album album)
+{
+    return album.numSongs * album.averageSongLength;
+}
 
 
 /*
@@ -60,10 +108,26 @@ struct Animal
     int numOfEyes = 2;
     char animalClass = 'm';
 
-    void classifyAnimal( Animal animal );
-    bool isAnimalBipedal( Animal numOfLegs );
-
+    void classifyAnimal(Animal animal);
+    bool isAnimalBipedal(Animal animal);
 };
+
+void Animal::classifyAnimal(Animal animal)
+{
+    std::cout << animal.animalClass << std::endl;
+}
+
+bool Animal::isAnimalBipedal(Animal animal)
+{
+    if(animal.numOfLegs == 2)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 /*
  3)
@@ -74,9 +138,19 @@ struct Student
     int age = 15;
     int absences = 5;
 
-    float calculateGPA( Student student );
-    void markAbsence( Student student, int day );
+    float calculateGPA(Student student);
+    void markAbsence(Student student, int day);
 };
+
+float Student::calculateGPA(Student student)
+{
+    return student.gpa;
+}
+
+void Student::markAbsence(Student student, int day)
+{
+    student.absences += day;
+}
 
 /*
  4)
@@ -92,8 +166,13 @@ struct Guitar
         double gauge = 0.011;
     };
 
-   void restringGuitar( Guitar guitar, Strings strings );
+   void restringGuitar(Guitar guitar, Strings strings);
 };
+
+void Guitar::restringGuitar(Guitar guitar, Guitar::Strings strings)
+{
+    std::cout << "Guitar of model " << guitar.model << ", with string number: "<< guitar.stringNum << ", has been re-strung using strings of gauge: "<< strings.gauge << std::endl;
+}
 
 /*
  5)
@@ -105,10 +184,26 @@ struct Airliner
     int fuelCapacity = 183380;
     char company = 'b';
 
-    double checkFuelAmount( Airliner plane );    
-    bool isTakeoffReady( Airliner plane, double fuelAmount );
+    double checkFuelAmount(Airliner plane);    
+    bool isTakeoffReady(Airliner plane, double fuelAmount);
 };
 
+double Airliner::checkFuelAmount(Airliner plane)
+{
+    return plane.fuelCapacity;
+}
+
+bool Airliner::isTakeoffReady(Airliner plane, double fuelAmount)
+{
+    if(fuelAmount > plane.fuelCapacity)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 /*
  6)
  */
@@ -118,9 +213,26 @@ struct Iphone
     int storageGB = 64;
     float displaySize = 4.7f;
 
-    void wipeMemory( Iphone iphone );
-    bool canRunNewOS( Iphone iphone );
+    void wipeMemory(Iphone iphone);
+    bool canRunNewOS(Iphone iphone);
 };
+
+void Iphone::wipeMemory(Iphone iphone)
+{
+    iphone.storageGB = 0;
+}
+
+bool Iphone::canRunNewOS(Iphone iphone)
+{
+    if (iphone.modelNum > 5)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    } 
+}
 
 /*
  7)
@@ -131,8 +243,13 @@ struct House
     int numOfToilets = 1;
     double price = 300000;
 
-    void updatePrice(House house, double newPrice);
+    void updatePrice(House& house, double newPrice);
 };
+
+void House::updatePrice(House& house, double newPrice)
+{
+    house.price = newPrice;
+}
 
 /*
  8)
@@ -146,6 +263,16 @@ struct Engine
     void checkOil( Engine engine );
     double checkTemperature( Engine engine );
 };
+
+void Engine::checkOil(Engine engine)
+{
+    std::cout << "Oil checked! Maximum thrust: " << engine.maximumThrust << std::endl;
+}
+
+double Engine::checkTemperature(Engine engine)
+{
+    return engine.turbineInletTemp;
+}
 
 /*
  9)
@@ -161,6 +288,16 @@ struct Pizza
     Pizza makePizza();
 };
 
+double Pizza::calculateSliceSize(Pizza pizza, int slices)
+{
+    return pizza.diameter / (pizza.sliceSize * slices);
+}
+
+Pizza Pizza::makePizza()
+{
+    std::cout << "Pizza made!" << std::endl;
+}
+
 
 /*
  10)
@@ -171,12 +308,31 @@ struct AirlinerStation
     Engine generalElectric;
 
     void replaceEngine(Airliner plane, Engine engine);
-    void addFuel(Airliner plane, double fuelAmount);
+    void addFuel(Airliner& plane, double fuelAmount);
 };
 
+void AirlinerStation::replaceEngine(Airliner plane, Engine engine)
+{
+    std::cout << "Replacing plane engine!" << std::endl;
+}
 
-#include <iostream>
+void AirlinerStation::addFuel(Airliner& plane, double fuelAmount)
+{
+    plane.fuelCapacity += fuelAmount;
+}
+
 int main()
 {
     std::cout << "good to go!" << std::endl;
+    
+    //Guitar gibson;
+    //Guitar::Strings ernie;
+
+    //gibson.restringGuitar(gibson, ernie);
+
+    //House villa;
+
+    //villa.updatePrice(dom, 250000);
+    //std::cout << villa.price << std::endl;
+
 }
