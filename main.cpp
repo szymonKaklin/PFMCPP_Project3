@@ -295,7 +295,9 @@ double Pizza::calculateSliceSize(Pizza pizza, int slices)
 
 Pizza Pizza::makePizza()
 {
+    Pizza pepperoni;
     std::cout << "Pizza made!" << std::endl;
+    return pepperoni;
 }
 
 
@@ -307,11 +309,11 @@ struct AirlinerStation
     Airliner freshAirliner;
     Engine generalElectric;
 
-    void replaceEngine(Airliner plane, Engine engine);
+    void replaceEngine(Airliner, Engine);
     void addFuel(Airliner& plane, double fuelAmount);
 };
 
-void AirlinerStation::replaceEngine(Airliner plane, Engine engine)
+void AirlinerStation::replaceEngine(Airliner, Engine)
 {
     std::cout << "Replacing plane engine!" << std::endl;
 }
