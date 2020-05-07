@@ -18,7 +18,7 @@
  5) add some std::cout statements in main() that print out your UDT's member variable values or values returned from your UDT member functions (if they return values)
  
  After you finish defining each type/function:
- click the [run] button.  Clear up any errors or warnings as best you can.
+ click the [run] button. Clear up any errors or warnings as best you can.
  
  Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
  
@@ -59,30 +59,41 @@ int main()
 
 //insert Example::main() into main() of user's repo.
 
-
-
 /*
  1)
  */
 struct Artist
 {
-    int numAlbums = 5;
-    float averageAlbumLength = 3.4f;
+    Artist();
+    int numAlbums;
+    float averageAlbumLength;
 
     struct Album
     {
-        int numSongs = 12;
-        float averageSongLength = 3.0f;
+        Album();
+        int numSongs;
+        float averageSongLength;
+        float totalAlbumLength();
     };
-
-    float totalAlbumLength(Album album);
 
     Album debut;
 };
 
-float Artist::totalAlbumLength(Artist::Album album)
+Artist::Artist()
 {
-    return album.numSongs * album.averageSongLength;
+    numAlbums = 0;
+    averageAlbumLength = 0.f;
+}
+
+Artist::Album::Album()
+{
+    numSongs = 12;
+    averageSongLength = 3.0f;
+}
+
+float Artist::Album::totalAlbumLength()
+{
+    return numSongs * averageSongLength;
 }
 
 
@@ -91,29 +102,34 @@ float Artist::totalAlbumLength(Artist::Album album)
  */
 struct Animal
 {
-    int numOfLegs = 4;
-    int numOfEyes = 2;
-    char animalClass = 'm';
+    Animal();
+    int numOfLegs;
+    int numOfEyes;
+    char animalClass;
 
-    void classifyAnimal(Animal animal);
-    bool isAnimalBipedal(Animal animal);
+    void classifyAnimal();
+    bool isAnimalBipedal();
 };
 
-void Animal::classifyAnimal(Animal animal)
+Animal::Animal()
 {
-    std::cout << animal.animalClass << std::endl;
+    numOfLegs = 4;
+    numOfEyes = 2;
+    animalClass = 'm';
 }
 
-bool Animal::isAnimalBipedal(Animal animal)
+void Animal::classifyAnimal()
 {
-    if(animal.numOfLegs == 2)
+    std::cout << animalClass << std::endl;
+}
+
+bool Animal::isAnimalBipedal()
+{
+    if(numOfLegs == 2)
     {
         return true;
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }
 
 /*
@@ -121,22 +137,30 @@ bool Animal::isAnimalBipedal(Animal animal)
  */
 struct Student
 {
-    float gpa = 3.6f;
-    int age = 15;
-    int absences = 5;
+    Student();
+    float gpa;
+    int age;
+    int absences;
 
-    float calculateGPA(Student student);
-    void markAbsence(Student student, int day);
+    float calculateGPA();
+    void markAbsence(int day);
 };
 
-float Student::calculateGPA(Student student)
+float Student::calculateGPA()
 {
-    return student.gpa;
+    return gpa;
 }
 
-void Student::markAbsence(Student student, int day)
+void Student::markAbsence(int day)
 {
-    student.absences += day;
+    absences += day;
+}
+
+Student::Student()
+{
+    gpa = 3.2f;
+    age = 15;
+    absences = 5;
 }
 
 /*
@@ -144,21 +168,35 @@ void Student::markAbsence(Student student, int day)
  */
 struct Guitar
 {
-    int stringNum = 7;
-    int fretNum = 24;
-    char model = 'i';
+    Guitar();
+    int stringNum;
+    int fretNum;
+    char model;
 
     struct Strings
     {
-        double gauge = 0.011;
+        Strings();
+        double gauge;
     };
 
-   void restringGuitar(Guitar guitar, Strings strings);
+   void restringGuitar(Strings strings);
 };
 
-void Guitar::restringGuitar(Guitar guitar, Guitar::Strings strings)
+Guitar::Guitar()
 {
-    std::cout << "Guitar of model " << guitar.model << ", with string number: "<< guitar.stringNum << ", has been re-strung using strings of gauge: "<< strings.gauge << std::endl;
+    stringNum = 7;
+    fretNum = 24;
+    model = 'i';
+}
+
+Guitar::Strings::Strings()
+{
+    gauge = 0.011;
+}
+
+void Guitar::restringGuitar(Guitar::Strings strings)
+{
+    std::cout << "Guitar of model " << model << ", with string number: "<< stringNum << ", has been re-strung using strings of gauge: "<< strings.gauge << std::endl;
 }
 
 /*
@@ -166,59 +204,71 @@ void Guitar::restringGuitar(Guitar guitar, Guitar::Strings strings)
  */
 struct Airliner
 {
-    int engines = 4;
-    int capacity = 416;
-    int fuelCapacity = 183380;
-    char company = 'b';
+    Airliner();
+    int engines;
+    int capacity;
+    int fuelCapacity;
+    char company;
 
-    double checkFuelAmount(Airliner plane);    
-    bool isTakeoffReady(Airliner plane, double fuelAmount);
+    double checkFuelAmount();    
+    bool isTakeoffReady(double fuelAmount);
 };
 
-double Airliner::checkFuelAmount(Airliner plane)
+Airliner::Airliner()
 {
-    return plane.fuelCapacity;
+    engines = 2;
+    capacity = 416;
+    fuelCapacity = 183380;
+    company = 'b';
 }
 
-bool Airliner::isTakeoffReady(Airliner plane, double fuelAmount)
+double Airliner::checkFuelAmount()
 {
-    if(fuelAmount > plane.fuelCapacity)
+    return fuelCapacity;
+}
+
+bool Airliner::isTakeoffReady(double fuelAmount)
+{
+    if(fuelAmount > fuelCapacity)
     {
         return true;
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }
+
 /*
  6)
  */
 struct Iphone
 {
-    int modelNum = 8;
-    int storageGB = 64;
-    float displaySize = 4.7f;
+    Iphone();
+    int modelNum;
+    int storageGB;
+    float displaySize;
 
-    void wipeMemory(Iphone iphone);
-    bool canRunNewOS(Iphone iphone);
+    void wipeMemory();
+    bool canRunNewOS();
 };
 
-void Iphone::wipeMemory(Iphone iphone)
+Iphone::Iphone()
 {
-    iphone.storageGB = 0;
+    modelNum = 8;
+    storageGB = 64;
+    displaySize = 4.7f;
 }
 
-bool Iphone::canRunNewOS(Iphone iphone)
+void Iphone::wipeMemory()
 {
-    if (iphone.modelNum > 5)
+    storageGB = 0;
+}
+
+bool Iphone::canRunNewOS()
+{
+    if (modelNum > 5)
     {
         return true;
     }
-    else
-    {
-        return false;
-    } 
+    return false; 
 }
 
 /*
@@ -226,16 +276,24 @@ bool Iphone::canRunNewOS(Iphone iphone)
  */
 struct House
 {
-    int numOfRooms = 3;
-    int numOfToilets = 1;
-    double price = 300000;
+    House();
+    int numOfRooms;
+    int numOfToilets;
+    double price;
 
-    void updatePrice(House& house, double newPrice);
+    void updatePrice(double newPrice);
 };
 
-void House::updatePrice(House& house, double newPrice)
+House::House()
 {
-    house.price = newPrice;
+    numOfRooms = 3;
+    numOfToilets = 1;
+    price = 300000;
+}
+
+void House::updatePrice(double newPrice)
+{
+    price = newPrice;
 }
 
 /*
@@ -243,22 +301,30 @@ void House::updatePrice(House& house, double newPrice)
  */
 struct Engine
 {
-    int maximumThrust = 79000;
-    int overallPressureRatio = 32;
-    int turbineInletTemp = 1350;
+    Engine();
+    int maximumThrust;
+    int overallPressureRatio;
+    int turbineInletTemp;
 
-    void checkOil( Engine engine );
-    double checkTemperature( Engine engine );
+    void checkOil();
+    double checkTemperature();
 };
 
-void Engine::checkOil(Engine engine)
+Engine::Engine()
 {
-    std::cout << "Oil checked! Maximum thrust: " << engine.maximumThrust << std::endl;
+    maximumThrust = 7900;
+    overallPressureRatio = 32;
+    turbineInletTemp = 1350;
 }
 
-double Engine::checkTemperature(Engine engine)
+void Engine::checkOil()
 {
-    return engine.turbineInletTemp;
+    std::cout << "Oil checked! Maximum thrust: " << maximumThrust << std::endl;
+}
+
+double Engine::checkTemperature()
+{
+    return turbineInletTemp;
 }
 
 /*
@@ -266,18 +332,26 @@ double Engine::checkTemperature(Engine engine)
  */
 struct Pizza
 {
-    int numOfToppings = 4;
-    int diameter = 14;
-    double sliceSize = 4.5;
+    Pizza();
+    int numOfToppings;
+    int diameter;
+    double sliceSize;
 
-    double calculateSliceSize( Pizza pizza, int slices );
+    double calculateSliceSize(int slices );
    
     Pizza makePizza();
 };
 
-double Pizza::calculateSliceSize(Pizza pizza, int slices)
+Pizza::Pizza()
 {
-    return pizza.diameter / (pizza.sliceSize * slices);
+    numOfToppings = 1;
+    diameter = 14;
+    sliceSize = 4.5;
+}
+
+double Pizza::calculateSliceSize(int slices)
+{
+    return diameter / (sliceSize * slices);
 }
 
 Pizza Pizza::makePizza()
@@ -293,12 +367,18 @@ Pizza Pizza::makePizza()
  */
 struct AirlinerStation
 {
+    AirlinerStation();
     Airliner freshAirliner;
     Engine generalElectric;
 
     void replaceEngine(Airliner, Engine);
     void addFuel(Airliner& plane, double fuelAmount);
 };
+
+AirlinerStation::AirlinerStation()
+{
+    //put something here?
+}
 
 void AirlinerStation::replaceEngine(Airliner, Engine)
 {
@@ -313,16 +393,53 @@ void AirlinerStation::addFuel(Airliner& plane, double fuelAmount)
 int main()
 {
     Example::main();
-    std::cout << "good to go!" << std::endl;
+    std::cout << "good to go!\n" << std::endl;
     
-    //Guitar gibson;
-    //Guitar::Strings ernie;
+    Artist metallica;
+    Artist::Album ride_the_lightning;
+    std::cout << ride_the_lightning.totalAlbumLength() << std::endl;
 
-    //gibson.restringGuitar(gibson, ernie);
+    Animal dog;
+    if(dog.isAnimalBipedal() == true)
+    {
+         std::cout << "Bipedal" << std::endl;
+    }
+    else
+    {
+        std::cout << "Not Bipedal" << std::endl;
+    }
 
-    //House villa;
+    Student philip;
+    std::cout << philip.calculateGPA() << std::endl;
 
-    //villa.updatePrice(dom, 250000);
-    //std::cout << villa.price << std::endl;
+    Guitar gibson;
+    Guitar::Strings ernie;
+    gibson.restringGuitar(ernie);
+
+    Airliner airbus737;
+    std::cout << airbus737.checkFuelAmount() << std::endl;
+
+    Iphone s5;
+    if(s5.canRunNewOS() == true)
+    {
+        std::cout << "Yes" << std::endl;
+    }
+    else
+    {
+        std::cout << "No" << std::endl;
+    }
+
+    House villa;
+    villa.updatePrice(250000);
+    std::cout << villa.price << std::endl;
+
+    Engine rolls_royce;
+    rolls_royce.checkOil();
+
+    Pizza margharita;
+    std::cout << margharita.calculateSliceSize(6) << std::endl;
+
+    AirlinerStation heathrow;
+    heathrow.replaceEngine(airbus737, rolls_royce);
 
 }
