@@ -35,37 +35,10 @@ int main()
 
 //call Example::main()
 
-
-#include <iostream>
-namespace Example 
-{
-struct UDT  // my user defined type named 'UDT'
-{
-    int a; //a member variable
-    UDT() { a = 0; }             //1) the constructor
-    void printThing()            //the member function
-    {
-        std::cout << "UDT::printThing() " << a << std::endl;  //2) printing out something interesting
-    }
-};
-
-int main()
-{
-    UDT foo;              //3) instantiating a UDT named 'foo' in main()
-    foo.printThing();     //4) calling a member function of the UDT instance.
-    
-    //5) a std::cout statement accessing foo's member variable.
-    //It also demonstrates a 'ternary expression', which is syntactic shorthand for an 'if/else' expression
-    std::cout << "Is foo's member var 'a' equal to 0? " << (foo.a == 0 ? "Yes" : "No") << "\n";
-    
-    return 0;
-}
-}
-
 //insert Example::main() into main() of user's repo.
 
 /*
- 1)
+ 1) initialization in constructor body
  */
 struct Artist
 {
@@ -103,7 +76,7 @@ float Artist::Album::totalAlbumLength()
 
 
 /*
- 2)
+ 2) initialization in constructor body
  */
 struct Animal
 {
@@ -138,7 +111,7 @@ bool Animal::isAnimalBipedal()
 }
 
 /*
- 3)
+ 3) initialization in constructor body
  */
 struct Student
 {
@@ -169,14 +142,14 @@ Student::Student()
 }
 
 /*
- 4)
+ 4) in-class initialization
  */
 struct Guitar
 {
     Guitar();
-    int stringNum;
-    int fretNum;
-    char model;
+    int stringNum = 7;
+    int fretNum = 24;
+    char model = 'i';
 
     struct Strings
     {
@@ -187,12 +160,7 @@ struct Guitar
    void restringGuitar(Strings strings);
 };
 
-Guitar::Guitar()
-{
-    stringNum = 7;
-    fretNum = 24;
-    model = 'i';
-}
+Guitar::Guitar() {}
 
 Guitar::Strings::Strings()
 {
@@ -205,27 +173,21 @@ void Guitar::restringGuitar(Guitar::Strings strings)
 }
 
 /*
- 5)
+ 5) in - class initialization
  */
 struct Airliner
 {
     Airliner();
-    int engines;
-    int capacity;
-    int fuelCapacity;
-    char company;
+    int engines = 2;
+    int capacity = 416;
+    int fuelCapacity = 183380;
+    char company = 'b';
 
     double checkFuelAmount();    
     bool isTakeoffReady(double fuelAmount);
 };
 
-Airliner::Airliner()
-{
-    engines = 2;
-    capacity = 416;
-    fuelCapacity = 183380;
-    company = 'b';
-}
+Airliner::Airliner() {}
 
 double Airliner::checkFuelAmount()
 {
@@ -242,25 +204,20 @@ bool Airliner::isTakeoffReady(double fuelAmount)
 }
 
 /*
- 6)
+ 6) in - class initialization
  */
 struct Iphone
 {
     Iphone();
-    int modelNum;
-    int storageGB;
-    float displaySize;
+    int modelNum = 8;
+    int storageGB = 64;
+    float displaySize {4.7f};
 
     void wipeMemory();
     bool canRunNewOS();
 };
 
-Iphone::Iphone()
-{
-    modelNum = 8;
-    storageGB = 64;
-    displaySize = 4.7f;
-}
+Iphone::Iphone() {}
 
 void Iphone::wipeMemory()
 {
@@ -277,7 +234,7 @@ bool Iphone::canRunNewOS()
 }
 
 /*
- 7)
+ 7) Constructor member initializer list
  */
 struct House
 {
@@ -289,12 +246,7 @@ struct House
     void updatePrice(double newPrice);
 };
 
-House::House()
-{
-    numOfRooms = 3;
-    numOfToilets = 1;
-    price = 300000;
-}
+House::House() : numOfRooms(3), numOfToilets(1), price(300000) {}
 
 void House::updatePrice(double newPrice)
 {
@@ -302,7 +254,7 @@ void House::updatePrice(double newPrice)
 }
 
 /*
- 8)
+ 8) Constructor member initializer list
  */
 struct Engine
 {
@@ -315,12 +267,10 @@ struct Engine
     double checkTemperature();
 };
 
-Engine::Engine()
-{
-    maximumThrust = 7900;
-    overallPressureRatio = 32;
-    turbineInletTemp = 1350;
-}
+Engine::Engine() : 
+maximumThrust(7900), 
+overallPressureRatio(32), 
+turbineInletTemp(1350) {}
 
 void Engine::checkOil()
 {
@@ -333,7 +283,7 @@ double Engine::checkTemperature()
 }
 
 /*
- 9)
+ 9) Constructor member initializer list
  */
 struct Pizza
 {
@@ -347,12 +297,7 @@ struct Pizza
     Pizza makePizza();
 };
 
-Pizza::Pizza()
-{
-    numOfToppings = 1;
-    diameter = 14;
-    sliceSize = 4.5;
-}
+Pizza::Pizza() : numOfToppings(1), diameter(14), sliceSize(4.5) {}
 
 double Pizza::calculateSliceSize(int slices)
 {
@@ -382,7 +327,7 @@ struct AirlinerStation
 
 AirlinerStation::AirlinerStation()
 {
-    //put something here?
+    std::cout << "Station Created!" << std::endl; 
 }
 
 void AirlinerStation::replaceEngine(Airliner, Engine)
