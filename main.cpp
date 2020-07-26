@@ -51,7 +51,10 @@ struct Artist
         Album();
         int numSongs;
         float averageSongLength;
-        float totalAlbumLength();
+        float totalAlbumLength()
+        {
+            return numSongs * averageSongLength;
+        }
     };
 
     Album debut;
@@ -68,12 +71,6 @@ Artist::Album::Album()
     numSongs = 12;
     averageSongLength = 3.0f;
 }
-
-float Artist::Album::totalAlbumLength()
-{
-    return numSongs * averageSongLength;
-}
-
 
 /*
  2) initialization in constructor body
@@ -98,7 +95,7 @@ Animal::Animal()
 
 void Animal::classifyAnimal()
 {
-    std::cout << animalClass << std::endl;
+    std::cout << "Animal is of class: " << animalClass << "\n" << std::endl;
 }
 
 bool Animal::isAnimalBipedal()
@@ -120,14 +117,13 @@ struct Student
     int age;
     int absences;
 
-    float calculateGPA();
+    void calculateGPA()
+    {
+        std::cout << "GPA is: " << gpa << "\n" << std::endl;
+    }
+
     void markAbsence(int day);
 };
-
-float Student::calculateGPA()
-{
-    return gpa;
-}
 
 void Student::markAbsence(int day)
 {
@@ -157,7 +153,10 @@ struct Guitar
         double gauge;
     };
 
-   void restringGuitar(Strings strings);
+   void restringGuitar(Strings strings)
+   {
+        std::cout << "Guitar of model " << model << ", with string number: "<< stringNum << ", has been   re-strung using strings of gauge: "<< strings.gauge << "\n" << std::endl;
+    }
 };
 
 Guitar::Guitar() {}
@@ -165,11 +164,6 @@ Guitar::Guitar() {}
 Guitar::Strings::Strings()
 {
     gauge = 0.011;
-}
-
-void Guitar::restringGuitar(Guitar::Strings strings)
-{
-    std::cout << "Guitar of model " << model << ", with string number: "<< stringNum << ", has been re-strung using strings of gauge: "<< strings.gauge << std::endl;
 }
 
 /*
@@ -183,25 +177,22 @@ struct Airliner
     int fuelCapacity = 183380;
     char company = 'b';
 
-    double checkFuelAmount();    
-    bool isTakeoffReady(double fuelAmount);
+    void checkFuelAmount()
+    {
+        std::cout << "Fuel amount: " << fuelCapacity << "\n" << std::endl;
+    }
+
+    bool isTakeoffReady(double fuelAmount)
+    {
+        if(fuelAmount > fuelCapacity)
+        {
+            return true;
+        }
+        return false;
+    }
 };
 
 Airliner::Airliner() {}
-
-double Airliner::checkFuelAmount()
-{
-    return fuelCapacity;
-}
-
-bool Airliner::isTakeoffReady(double fuelAmount)
-{
-    if(fuelAmount > fuelCapacity)
-    {
-        return true;
-    }
-    return false;
-}
 
 /*
  6) in - class initialization
@@ -213,25 +204,22 @@ struct Iphone
     int storageGB = 64;
     float displaySize {4.7f};
 
-    void wipeMemory();
-    bool canRunNewOS();
+    void wipeMemory()
+    {
+        std::cout << "Previous Memory: " << storageGB << "\n -Wiped. \nNew Memory: " << "0\n" << std::endl;
+    }
+
+    bool canRunNewOS()
+    {
+        if (modelNum > 5)
+        {
+            return true;
+        }
+        return false; 
+    }
 };
 
 Iphone::Iphone() {}
-
-void Iphone::wipeMemory()
-{
-    storageGB = 0;
-}
-
-bool Iphone::canRunNewOS()
-{
-    if (modelNum > 5)
-    {
-        return true;
-    }
-    return false; 
-}
 
 /*
  7) Constructor member initializer list
@@ -263,24 +251,21 @@ struct Engine
     int overallPressureRatio;
     int turbineInletTemp;
 
-    void checkOil();
-    double checkTemperature();
+    void checkOil()
+    {
+        std::cout << "Oil checked! Maximum thrust: " << maximumThrust << "\n" << std::endl;
+    }
+    
+    void checkTemperature()
+    {
+        std::cout << "Turbine Inlet Temp: " << turbineInletTemp << "\n" << std::endl;
+    }
 };
 
 Engine::Engine() : 
 maximumThrust(7900), 
 overallPressureRatio(32), 
 turbineInletTemp(1350) {}
-
-void Engine::checkOil()
-{
-    std::cout << "Oil checked! Maximum thrust: " << maximumThrust << std::endl;
-}
-
-double Engine::checkTemperature()
-{
-    return turbineInletTemp;
-}
 
 /*
  9) Constructor member initializer list
@@ -361,47 +346,52 @@ int main()
     
     Artist metallica;
     Artist::Album ride_the_lightning;
-    std::cout << ride_the_lightning.totalAlbumLength() << std::endl;
+    std::cout << "Total album length: " << ride_the_lightning.totalAlbumLength() << "\n" << std::endl;
 
     Animal dog;
+    std::cout << "Is animal Bipedal?" << std::endl;
     if(dog.isAnimalBipedal() == true)
     {
-         std::cout << "Bipedal" << std::endl;
+         std::cout << "Bipedal \n" << std::endl;
     }
     else
     {
-        std::cout << "Not Bipedal" << std::endl;
+        std::cout << "Not Bipedal \n" << std::endl;
     }
+    dog.classifyAnimal();
 
     Student philip;
-    std::cout << philip.calculateGPA() << std::endl;
+    philip.calculateGPA();
 
     Guitar gibson;
     Guitar::Strings ernie;
     gibson.restringGuitar(ernie);
 
     Airliner airbus737;
-    std::cout << airbus737.checkFuelAmount() << std::endl;
+    airbus737.checkFuelAmount();
 
     Iphone s5;
+    std::cout << "Can Iphone run new OS?" << std::endl;
     if(s5.canRunNewOS() == true)
     {
-        std::cout << "Yes" << std::endl;
+        std::cout << "Yes \n" << std::endl;
     }
     else
     {
-        std::cout << "No" << std::endl;
+        std::cout << "No \n" << std::endl;
     }
+    s5.wipeMemory();
 
     House villa;
     villa.updatePrice(250000);
-    std::cout << villa.price << std::endl;
+    std::cout << "New price is: " << villa.price << "\n" << std::endl;
 
     Engine rolls_royce;
     rolls_royce.checkOil();
+    rolls_royce.checkTemperature();
 
     Pizza margharita;
-    std::cout << margharita.calculateSliceSize(6) << std::endl;
+    std::cout << "Slice size is: " << margharita.calculateSliceSize(6) << "\n" << std::endl;
 
     AirlinerStation heathrow;
     heathrow.replaceEngine(airbus737, rolls_royce);
