@@ -184,11 +184,7 @@ struct Airliner
 
     bool isTakeoffReady(double fuelAmount)
     {
-        if(fuelAmount > fuelCapacity)
-        {
-            return true;
-        }
-        return false;
+        return fuelAmount > fuelCapacity;
     }
 };
 
@@ -211,11 +207,7 @@ struct Iphone
 
     bool canRunNewOS()
     {
-        if (modelNum > 5)
-        {
-            return true;
-        }
-        return false; 
+        return modelNum > 5;
     }
 };
 
@@ -369,10 +361,18 @@ int main()
 
     Airliner airbus737;
     airbus737.checkFuelAmount();
+    if(airbus737.isTakeoffReady(500000))
+    {
+        std::cout << "Is takeoff ready \n" << std::endl;
+    }
+    else
+    {
+        std::cout << "Is not takeoff ready \n" << std::endl;
+    }
 
     Iphone s5;
     std::cout << "Can Iphone run new OS?" << std::endl;
-    if(s5.canRunNewOS() == true)
+    if(s5.canRunNewOS())
     {
         std::cout << "Yes \n" << std::endl;
     }
