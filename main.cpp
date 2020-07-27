@@ -35,37 +35,10 @@ int main()
 
 //call Example::main()
 
-
-#include <iostream>
-namespace Example 
-{
-struct UDT  // my user defined type named 'UDT'
-{
-    int a; //a member variable
-    UDT() { a = 0; }             //1) the constructor
-    void printThing()            //the member function
-    {
-        std::cout << "UDT::printThing() " << a << std::endl;  //2) printing out something interesting
-    }
-};
-
-int main()
-{
-    UDT foo;              //3) instantiating a UDT named 'foo' in main()
-    foo.printThing();     //4) calling a member function of the UDT instance.
-    
-    //5) a std::cout statement accessing foo's member variable.
-    //It also demonstrates a 'ternary expression', which is syntactic shorthand for an 'if/else' expression
-    std::cout << "Is foo's member var 'a' equal to 0? " << (foo.a == 0 ? "Yes" : "No") << "\n";
-    
-    return 0;
-}
-}
-
 //insert Example::main() into main() of user's repo.
 
 /*
- 1)
+ 1) initialization in constructor body
  */
 struct Artist
 {
@@ -78,7 +51,10 @@ struct Artist
         Album();
         int numSongs;
         float averageSongLength;
-        float totalAlbumLength();
+        float totalAlbumLength()
+        {
+            return numSongs * averageSongLength;
+        }
     };
 
     Album debut;
@@ -96,14 +72,8 @@ Artist::Album::Album()
     averageSongLength = 3.0f;
 }
 
-float Artist::Album::totalAlbumLength()
-{
-    return numSongs * averageSongLength;
-}
-
-
 /*
- 2)
+ 2) initialization in constructor body
  */
 struct Animal
 {
@@ -125,7 +95,7 @@ Animal::Animal()
 
 void Animal::classifyAnimal()
 {
-    std::cout << animalClass << std::endl;
+    std::cout << "Animal is of class: " << animalClass << "\n" << std::endl;
 }
 
 bool Animal::isAnimalBipedal()
@@ -138,7 +108,7 @@ bool Animal::isAnimalBipedal()
 }
 
 /*
- 3)
+ 3) initialization in constructor body
  */
 struct Student
 {
@@ -147,14 +117,13 @@ struct Student
     int age;
     int absences;
 
-    float calculateGPA();
+    void calculateGPA()
+    {
+        std::cout << "GPA is: " << gpa << "\n" << std::endl;
+    }
+
     void markAbsence(int day);
 };
-
-float Student::calculateGPA()
-{
-    return gpa;
-}
 
 void Student::markAbsence(int day)
 {
@@ -169,14 +138,14 @@ Student::Student()
 }
 
 /*
- 4)
+ 4) in-class initialization
  */
 struct Guitar
 {
     Guitar();
-    int stringNum;
-    int fretNum;
-    char model;
+    int stringNum = 7;
+    int fretNum = 24;
+    char model = 'i';
 
     struct Strings
     {
@@ -184,100 +153,68 @@ struct Guitar
         double gauge;
     };
 
-   void restringGuitar(Strings strings);
+   void restringGuitar(Strings strings)
+   {
+        std::cout << "Guitar of model " << model << ", with string number: "<< stringNum << ", has been   re-strung using strings of gauge: "<< strings.gauge << "\n" << std::endl;
+    }
 };
 
-Guitar::Guitar()
-{
-    stringNum = 7;
-    fretNum = 24;
-    model = 'i';
-}
+Guitar::Guitar() {}
 
 Guitar::Strings::Strings()
 {
     gauge = 0.011;
 }
 
-void Guitar::restringGuitar(Guitar::Strings strings)
-{
-    std::cout << "Guitar of model " << model << ", with string number: "<< stringNum << ", has been re-strung using strings of gauge: "<< strings.gauge << std::endl;
-}
-
 /*
- 5)
+ 5) in - class initialization
  */
 struct Airliner
 {
     Airliner();
-    int engines;
-    int capacity;
-    int fuelCapacity;
-    char company;
+    int engines = 2;
+    int capacity = 416;
+    int fuelCapacity = 183380;
+    char company = 'b';
 
-    double checkFuelAmount();    
-    bool isTakeoffReady(double fuelAmount);
+    void checkFuelAmount()
+    {
+        std::cout << "Fuel amount: " << fuelCapacity << "\n" << std::endl;
+    }
+
+    bool isTakeoffReady(double fuelAmount)
+    {
+        return fuelAmount > fuelCapacity;
+    }
 };
 
-Airliner::Airliner()
-{
-    engines = 2;
-    capacity = 416;
-    fuelCapacity = 183380;
-    company = 'b';
-}
-
-double Airliner::checkFuelAmount()
-{
-    return fuelCapacity;
-}
-
-bool Airliner::isTakeoffReady(double fuelAmount)
-{
-    if(fuelAmount > fuelCapacity)
-    {
-        return true;
-    }
-    return false;
-}
+Airliner::Airliner() {}
 
 /*
- 6)
+ 6) in - class initialization
  */
 struct Iphone
 {
     Iphone();
-    int modelNum;
-    int storageGB;
-    float displaySize;
+    int modelNum = 8;
+    int storageGB = 64;
+    float displaySize {4.7f};
 
-    void wipeMemory();
-    bool canRunNewOS();
+    void wipeMemory()
+    {
+        std::cout << "Previous Memory: " << storageGB << "\n -Wiped. \nNew Memory: " << "0\n" << std::endl;
+    }
+
+    bool canRunNewOS()
+    {
+        return modelNum > 5;
+    }
 };
 
-Iphone::Iphone()
-{
-    modelNum = 8;
-    storageGB = 64;
-    displaySize = 4.7f;
-}
-
-void Iphone::wipeMemory()
-{
-    storageGB = 0;
-}
-
-bool Iphone::canRunNewOS()
-{
-    if (modelNum > 5)
-    {
-        return true;
-    }
-    return false; 
-}
+Iphone::Iphone() {}
 
 /*
- 7)
+ 7) Constructor member initializer list
  */
 struct House
 {
@@ -289,12 +226,7 @@ struct House
     void updatePrice(double newPrice);
 };
 
-House::House()
-{
-    numOfRooms = 3;
-    numOfToilets = 1;
-    price = 300000;
-}
+House::House() : numOfRooms(3), numOfToilets(1), price(300000) {}
 
 void House::updatePrice(double newPrice)
 {
@@ -302,7 +234,7 @@ void House::updatePrice(double newPrice)
 }
 
 /*
- 8)
+ 8) Constructor member initializer list
  */
 struct Engine
 {
@@ -311,29 +243,24 @@ struct Engine
     int overallPressureRatio;
     int turbineInletTemp;
 
-    void checkOil();
-    double checkTemperature();
+    void checkOil()
+    {
+        std::cout << "Oil checked! Maximum thrust: " << maximumThrust << "\n" << std::endl;
+    }
+    
+    void checkTemperature()
+    {
+        std::cout << "Turbine Inlet Temp: " << turbineInletTemp << "\n" << std::endl;
+    }
 };
 
-Engine::Engine()
-{
-    maximumThrust = 7900;
-    overallPressureRatio = 32;
-    turbineInletTemp = 1350;
-}
-
-void Engine::checkOil()
-{
-    std::cout << "Oil checked! Maximum thrust: " << maximumThrust << std::endl;
-}
-
-double Engine::checkTemperature()
-{
-    return turbineInletTemp;
-}
+Engine::Engine() : 
+maximumThrust(7900), 
+overallPressureRatio(32), 
+turbineInletTemp(1350) {}
 
 /*
- 9)
+ 9) Constructor member initializer list
  */
 struct Pizza
 {
@@ -347,12 +274,7 @@ struct Pizza
     Pizza makePizza();
 };
 
-Pizza::Pizza()
-{
-    numOfToppings = 1;
-    diameter = 14;
-    sliceSize = 4.5;
-}
+Pizza::Pizza() : numOfToppings(1), diameter(14), sliceSize(4.5) {}
 
 double Pizza::calculateSliceSize(int slices)
 {
@@ -382,7 +304,7 @@ struct AirlinerStation
 
 AirlinerStation::AirlinerStation()
 {
-    //put something here?
+    std::cout << "Station Created!" << std::endl; 
 }
 
 void AirlinerStation::replaceEngine(Airliner, Engine)
@@ -416,47 +338,60 @@ int main()
     
     Artist metallica;
     Artist::Album ride_the_lightning;
-    std::cout << ride_the_lightning.totalAlbumLength() << std::endl;
+    std::cout << "Total album length: " << ride_the_lightning.totalAlbumLength() << "\n" << std::endl;
 
     Animal dog;
+    std::cout << "Is animal Bipedal?" << std::endl;
     if(dog.isAnimalBipedal() == true)
     {
-         std::cout << "Bipedal" << std::endl;
+         std::cout << "Bipedal \n" << std::endl;
     }
     else
     {
-        std::cout << "Not Bipedal" << std::endl;
+        std::cout << "Not Bipedal \n" << std::endl;
     }
+    dog.classifyAnimal();
 
     Student philip;
-    std::cout << philip.calculateGPA() << std::endl;
+    philip.calculateGPA();
 
     Guitar gibson;
     Guitar::Strings ernie;
     gibson.restringGuitar(ernie);
 
     Airliner airbus737;
-    std::cout << airbus737.checkFuelAmount() << std::endl;
-
-    Iphone s5;
-    if(s5.canRunNewOS() == true)
+    airbus737.checkFuelAmount();
+    if(airbus737.isTakeoffReady(500000))
     {
-        std::cout << "Yes" << std::endl;
+        std::cout << "Is takeoff ready \n" << std::endl;
     }
     else
     {
-        std::cout << "No" << std::endl;
+        std::cout << "Is not takeoff ready \n" << std::endl;
     }
+
+    Iphone s5;
+    std::cout << "Can Iphone run new OS?" << std::endl;
+    if(s5.canRunNewOS())
+    {
+        std::cout << "Yes \n" << std::endl;
+    }
+    else
+    {
+        std::cout << "No \n" << std::endl;
+    }
+    s5.wipeMemory();
 
     House villa;
     villa.updatePrice(250000);
-    std::cout << villa.price << std::endl;
+    std::cout << "New price is: " << villa.price << "\n" << std::endl;
 
     Engine rolls_royce;
     rolls_royce.checkOil();
+    rolls_royce.checkTemperature();
 
     Pizza margharita;
-    std::cout << margharita.calculateSliceSize(6) << std::endl;
+    std::cout << "Slice size is: " << margharita.calculateSliceSize(6) << "\n" << std::endl;
 
     AirlinerStation heathrow;
     heathrow.replaceEngine(airbus737, rolls_royce);
