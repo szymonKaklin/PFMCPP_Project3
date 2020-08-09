@@ -87,7 +87,7 @@ struct Artist
         {
             while( numSongs < threshold )
             {
-                numSongs += 1;
+                ++numSongs;
                 if (numSongs >= threshold)
                 {
                     return numSongs;   
@@ -129,7 +129,7 @@ struct Animal
 
     int toeCreator()
     {
-        for(int i=0; i<numOfLegs; i++)
+        for( int i=0; i<numOfLegs; ++i )
         {
             numOfToes += 5;
         }
@@ -174,7 +174,7 @@ struct Student
 
     float absenceGPA()
     {
-        for(int i=0; i<absences; i++)
+        for( int i=0; i<absences; ++i )
         {
             gpa *= 0.75f;
             if(gpa < 1)
@@ -224,7 +224,7 @@ struct Guitar
     void tune()
     {
         std::cout << "\nTuning Guitar..." << std::endl;
-        for (int i=0; i<stringNum; i++)
+        for ( int i=0; i<stringNum; ++i )
         {
             std::cout << "Tuned string " << i+1 << std::endl;
         }
@@ -263,15 +263,15 @@ struct Airliner
 
     int beginBoarding(int passengers)
     {
-        while(passengers > 0)
+        while( passengers > 0 )
         {
-            capacity -= 1;
-            if(capacity < 0)
+            --capacity;
+            if( capacity < 0 )
             {
                 std::cout << "Plane Full! Leftover Passengers: " << passengers << std::endl;
                 return 0;
             }
-            passengers -= 1;
+            --passengers;
         }
         std::cout << "Boarding Complete! Empty Seats: " << capacity << std::endl;
         return 0;
@@ -302,12 +302,12 @@ struct Iphone
 
     int useMemory(int memoryStart, int memoryEnd )
     {
-        if (memoryEnd < memoryStart)
+        if ( memoryEnd < memoryStart )
         {
             std::cout << "Illegal input. Quitting..." << std::endl;
             return -1;
         }
-        for(int i=memoryStart; i<=memoryEnd; i++)
+        for( int i=memoryStart; i<=memoryEnd; ++i )
         {
             if(i > 64)
             {
@@ -339,14 +339,14 @@ struct House
 
     int demolishRooms(int roomsToDemolish)
     {
-        if(roomsToDemolish > numOfRooms)
+        if( roomsToDemolish > numOfRooms )
         {
             std::cout << "Only " << numOfRooms << " rooms to demolish!" << std::endl;
             return 0;
         }
-        while(numOfRooms >= roomsToDemolish)
+        while( numOfRooms >= roomsToDemolish )
         {
-            numOfRooms -= 1;
+            --numOfRooms;
         }
         return roomsToDemolish;
     }
@@ -402,7 +402,7 @@ struct Pizza
     void distributeToppings(int toppings, int slices)
     {
         int tps = toppings/slices;
-        for(int i=0; i<slices; i++)
+        for( int i=0; i<slices; ++i )
         {
             std::cout << "Added " << tps << " toppings to slice" << std::endl;
         }
