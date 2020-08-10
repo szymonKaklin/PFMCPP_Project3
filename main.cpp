@@ -129,7 +129,7 @@ struct Animal
 
     int toeCreator()
     {
-        for( int i=0; i<numOfLegs; ++i )
+        for( int i = 0; i < numOfLegs; ++i )
         {
             numOfToes += 5;
         }
@@ -174,7 +174,7 @@ struct Student
 
     float absenceGPA()
     {
-        for( int i=0; i<absences; ++i )
+        for( int i = 0; i < absences; ++i )
         {
             gpa *= 0.75f;
             if(gpa < 1)
@@ -224,7 +224,7 @@ struct Guitar
     void tune()
     {
         std::cout << "\nTuning Guitar..." << std::endl;
-        for ( int i=0; i<stringNum; ++i )
+        for ( int i = 0; i < stringNum; ++i )
         {
             std::cout << "Tuned string " << i+1 << std::endl;
         }
@@ -307,7 +307,7 @@ struct Iphone
             std::cout << "Illegal input. Quitting..." << std::endl;
             return -1;
         }
-        for( int i=memoryStart; i<=memoryEnd; ++i )
+        for( int i = memoryStart; i <= memoryEnd; ++i )
         {
             if(i > 64)
             {
@@ -402,7 +402,7 @@ struct Pizza
     void distributeToppings(int toppings, int slices)
     {
         int tps = toppings/slices;
-        for( int i=0; i<slices; ++i )
+        for( int i = 0; i < slices; ++i )
         {
             std::cout << "Added " << tps << " toppings to slice" << std::endl;
         }
