@@ -61,9 +61,7 @@ int main()
 }
 }
 
-//call Example::main() in main()
-
-
+// call Example::main() in main()
 
 
 /*
@@ -83,6 +81,20 @@ struct Artist
         float totalAlbumLength()
         {
             return numSongs * averageSongLength;
+        }
+
+        int albumLengthModifier(int threshold)
+        {
+            while( numSongs < threshold )
+            {
+                ++numSongs;
+                if (numSongs >= threshold)
+                {
+                    return numSongs;   
+                }
+            }
+            numSongs = threshold;
+            return numSongs;
         }
     };
 
@@ -109,15 +121,26 @@ struct Animal
     Animal();
     int numOfLegs;
     int numOfEyes;
+    int numOfToes;
     char animalClass;
 
     void classifyAnimal();
     bool isAnimalBipedal();
+
+    int toeCreator()
+    {
+        for( int i = 0; i < numOfLegs; ++i )
+        {
+            numOfToes += 5;
+        }
+        return numOfToes;
+    }
 };
 
 Animal::Animal()
 {
     numOfLegs = 4;
+    numOfToes = 0;
     numOfEyes = 2;
     animalClass = 'm';
 }
@@ -129,11 +152,7 @@ void Animal::classifyAnimal()
 
 bool Animal::isAnimalBipedal()
 {
-    if(numOfLegs == 2)
-    {
-        return true;
-    }
-    return false;
+    return numOfLegs == 2;
 }
 
 /*
@@ -152,6 +171,20 @@ struct Student
     }
 
     void markAbsence(int day);
+
+    float absenceGPA()
+    {
+        for( int i = 0; i < absences; ++i )
+        {
+            gpa *= 0.75f;
+            if(gpa < 1)
+            {
+                std::cout << "(min. GPA reached)" << std::endl;
+                return gpa=1.0f;
+            }
+        }
+        return gpa;
+    }
 };
 
 void Student::markAbsence(int day)
@@ -163,7 +196,7 @@ Student::Student()
 {
     gpa = 3.2f;
     age = 15;
-    absences = 5;
+    absences = 3;
 }
 
 /*
@@ -175,6 +208,7 @@ struct Guitar
     int stringNum = 7;
     int fretNum = 24;
     char model = 'i';
+    bool tuned = false;
 
     struct Strings
     {
@@ -185,6 +219,17 @@ struct Guitar
    void restringGuitar(Strings strings)
    {
         std::cout << "Guitar of model " << model << ", with string number: "<< stringNum << ", has been   re-strung using strings of gauge: "<< strings.gauge << "\n" << std::endl;
+    }
+
+    void tune()
+    {
+        std::cout << "\nTuning Guitar..." << std::endl;
+        for ( int i = 0; i < stringNum; ++i )
+        {
+            std::cout << "Tuned string " << i+1 << std::endl;
+        }
+        tuned = true;
+        std::cout << "Guitar Tuned!" << std::endl;
     }
 };
 
@@ -215,6 +260,22 @@ struct Airliner
     {
         return fuelAmount > fuelCapacity;
     }
+
+    int beginBoarding(int passengers)
+    {
+        while( passengers > 0 )
+        {
+            --capacity;
+            if( capacity < 0 )
+            {
+                std::cout << "Plane Full! Leftover Passengers: " << passengers << std::endl;
+                return 0;
+            }
+            --passengers;
+        }
+        std::cout << "Boarding Complete! Empty Seats: " << capacity << std::endl;
+        return 0;
+    }
 };
 
 Airliner::Airliner() {}
@@ -238,6 +299,28 @@ struct Iphone
     {
         return modelNum > 5;
     }
+
+    int useMemory(int memoryStart, int memoryEnd )
+    {
+        if ( memoryEnd < memoryStart )
+        {
+            std::cout << "Illegal input. Quitting..." << std::endl;
+            return -1;
+        }
+        for( int i = memoryStart; i <= memoryEnd; ++i )
+        {
+            if(i > 64)
+            {
+                std::cout << "Last address reached, quitting...\n" << std::endl;
+                std::cout << "Used memory from: " << memoryStart << " to " << storageGB << std::endl;
+                return 0;
+            }
+        }
+        storageGB -= (memoryEnd - memoryStart);
+        std::cout << "Used memory from: " << memoryStart << " to " << memoryEnd << std::endl;
+        std::cout << "Memory Left: " << storageGB << std::endl;
+        return 0;
+    }
 };
 
 Iphone::Iphone() {}
@@ -253,6 +336,20 @@ struct House
     double price;
 
     void updatePrice(double newPrice);
+
+    int demolishRooms(int roomsToDemolish)
+    {
+        if( roomsToDemolish > numOfRooms )
+        {
+            std::cout << "Only " << numOfRooms << " rooms to demolish!" << std::endl;
+            return 0;
+        }
+        while( numOfRooms >= roomsToDemolish )
+        {
+            --numOfRooms;
+        }
+        return roomsToDemolish;
+    }
 };
 
 House::House() : numOfRooms(3), numOfToilets(1), price(300000) {}
@@ -301,6 +398,19 @@ struct Pizza
     double calculateSliceSize(int slices );
    
     Pizza makePizza();
+
+    void distributeToppings(int toppings, int slices)
+    {
+        int tps = toppings/slices;
+        for( int i = 0; i < slices; ++i )
+        {
+            std::cout << "Added " << tps << " toppings to slice" << std::endl;
+        }
+        int leftover = toppings % slices;
+        std::cout << "Leftover toppings: " << leftover << std::endl;
+        numOfToppings -= 1;
+        std::cout << "Toppings left to distribute: " << numOfToppings << std::endl;
+    }
 };
 
 Pizza::Pizza() : numOfToppings(1), diameter(14), sliceSize(4.5) {}
@@ -425,4 +535,26 @@ int main()
     AirlinerStation heathrow;
     heathrow.replaceEngine(airbus737, rolls_royce);
 
+    // PART 5 CHECKS
+    std::cout << "\nPart 5 Checks" << std::endl;
+    std::cout << "-----------------------" << std::endl;
+    std::cout << "Songs in album adjusted to optimal amount: " << ride_the_lightning.albumLengthModifier(8) << std::endl;
+
+    std::cout << "\nToes created: " << dog.toeCreator() << std::endl;
+
+    std::cout << "\nAbsence scaled GPA: " << philip.absenceGPA() << std::endl;
+
+    gibson.tune();
+
+    std::cout << "\n" << std::endl;
+    airbus737.beginBoarding(420);
+
+    std::cout << "\n" << std::endl;
+    s5.useMemory(21, 35);
+
+    std::cout << "\n" << std::endl;
+    std::cout << "Rooms demolished: " << villa.demolishRooms(2) << std::endl;
+
+    std::cout << "\n" << std::endl;
+    margharita.distributeToppings(35, 8);
 }
